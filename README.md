@@ -4,7 +4,7 @@ Web service helps others to convert Trendyol.com links between mobile and web ap
 
 ## Getting Started
 
-docker-compose up --build
+sh start.sh
 
 docker-compose down
 
