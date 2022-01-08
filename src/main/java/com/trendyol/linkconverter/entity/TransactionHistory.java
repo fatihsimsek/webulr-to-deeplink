@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Table(name="transaction_history")
@@ -20,7 +19,6 @@ public class TransactionHistory {
     }
 
     public TransactionHistory(String input, String output, String type) {
-        this.id = UUID.randomUUID().toString();
         this.input = input;
         this.output = output;
         this.type = type;
