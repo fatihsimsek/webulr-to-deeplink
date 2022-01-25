@@ -8,8 +8,8 @@ import com.trendyol.linkconverter.entity.DeepLink;
 import com.trendyol.linkconverter.entity.TransactionHistory;
 import com.trendyol.linkconverter.entity.UrlEntity;
 import com.trendyol.linkconverter.repository.TransactionHistoryRepository;
-import com.trendyol.linkconverter.service.decoder.DecoderFactory;
-import com.trendyol.linkconverter.service.encoder.EncoderFactory;
+import com.trendyol.linkconverter.service.decoder.DecoderManager;
+import com.trendyol.linkconverter.service.encoder.EncoderManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
@@ -17,17 +17,23 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class ConversionService {
+    private EncoderManager encoderManager;
+    private DecoderManager decoderManager;
     private TransactionHistoryRepository transactionHistoryRepository;
 
     @Autowired
-    public ConversionService(TransactionHistoryRepository transactionHistoryRepository) {
+    public ConversionService(TransactionHistoryRepository transactionHistoryRepository,
+                             EncoderManager encoderManager,
+                             DecoderManager decoderManager) {
         this.transactionHistoryRepository = transactionHistoryRepository;
+        this.encoderManager = encoderManager;
+        this.decoderManager = decoderManager;
     }
 
     public DeepLinkResponse urlToDeepLink(UrlToDeepLinkRequest request) {
         UriComponents url = toUrl(request);
         if(url != null) {
-            DeepLink deepLink = EncoderFactory.getEncoder(url).encode();
+            DeepLink deepLink = this.encoderManager.encode(url);
             DeepLinkResponse response = toDeepLinkResponse(deepLink);
 
             logTransactionHistory(request.getValue(), response.getValue(), Constant.LOG_TYPE_URL_TO_DEEPLINK);
@@ -39,7 +45,7 @@ public class ConversionService {
     public UrlResponse deepLinkToUrl(DeepLinkToUrlRequest request) {
         UriComponents url = toDeepLink(request);
         if(url != null) {
-            UrlEntity urlEntity = DecoderFactory.getDecoder(url).decode();
+            UrlEntity urlEntity = this.decoderManager.decode(url);
             UrlResponse response = toUrlResponse(urlEntity);
 
             logTransactionHistory(request.getValue(), response.getValue(), Constant.LOG_TYPE_DEEPLINK_TO_URL);

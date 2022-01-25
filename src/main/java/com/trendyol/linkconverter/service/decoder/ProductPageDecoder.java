@@ -3,20 +3,21 @@ package com.trendyol.linkconverter.service.decoder;
 import com.trendyol.linkconverter.entity.LinkBuilder;
 import com.trendyol.linkconverter.entity.UrlEntity;
 import com.trendyol.linkconverter.service.Constant;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponents;
 
 import java.util.List;
 
+@Component
+@Order(1)
 public class ProductPageDecoder extends Decoder {
-    public ProductPageDecoder(UriComponents url) {
-        super(url);
-    }
 
     @Override
-    public UrlEntity decode() {
+    public UrlEntity decode(UriComponents url) {
         LinkBuilder builder = new LinkBuilder();
 
-        this.getUrl().getQueryParams().forEach((k,v) -> {
+        url.getQueryParams().forEach((k,v) -> {
             if (k.equals(Constant.CONTENT_ID_PARAM)) {
                 builder.addPath("/brand").addPath("/name-p-" + (v != null && v.size() > 0 ? v.get(0) : ""));
             }
@@ -31,7 +32,8 @@ public class ProductPageDecoder extends Decoder {
         return builder.toUrl();
     }
 
-    public static boolean isMatch(UriComponents url) {
+    @Override
+    public boolean isMatch(UriComponents url) {
         if(url.getQueryParams().containsKey(Constant.PAGE_PARAM) && url.getQueryParams().containsKey(Constant.CONTENT_ID_PARAM)) {
             List<String> paramValues = url.getQueryParams().get(Constant.PAGE_PARAM);
             return paramValues != null && paramValues.size() > 0 ? paramValues.get(0).equals(Constant.PRODUCT_PARAM_VALUE) : false;
