@@ -1,15 +1,21 @@
 package com.trendyol.linkconverter.entity;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name="transaction_history")
 public class TransactionHistory {
     @Id
-    private String id;
+    @GeneratedValue
+    @Type(type="uuid-char")
+    private UUID id;
     private String input;
     private String output;
     private String type;
@@ -25,12 +31,8 @@ public class TransactionHistory {
         this.createTime = new Date();
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getInput() {

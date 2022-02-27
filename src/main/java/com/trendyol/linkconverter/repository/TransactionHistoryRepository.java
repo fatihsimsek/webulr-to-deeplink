@@ -14,10 +14,9 @@ public class TransactionHistoryRepository {
     private EntityManager entityManager;
 
     public void save(TransactionHistory transactionHistory) {
-        String id = transactionHistory.getId();
+        UUID id = transactionHistory.getId();
 
-        if(StringUtils.isEmpty(id)) {
-            transactionHistory.setId(UUID.randomUUID().toString());
+        if(id == null) {
             entityManager.persist(transactionHistory);
         }
         else {
