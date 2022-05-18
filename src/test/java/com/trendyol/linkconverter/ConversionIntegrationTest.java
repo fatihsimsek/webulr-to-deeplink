@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -50,7 +51,7 @@ public class ConversionIntegrationTest {
         UrlToDeepLinkRequest request = new UrlToDeepLinkRequest();
         request.setValue("/casio/saat-p-1925865?boutiqueId=439892&merchantId=105064");
 
-        given(conversionService.urlToDeepLink(any(UrlToDeepLinkRequest.class))).willReturn(null);
+        doReturn(null).when(conversionService).urlToDeepLink(any(UrlToDeepLinkRequest.class));
 
         this.mockMvc.perform(post("/api/convert/url-to-deeplink")
                 .contentType("application/json")
