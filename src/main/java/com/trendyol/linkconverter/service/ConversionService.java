@@ -10,7 +10,6 @@ import com.trendyol.linkconverter.entity.UrlEntity;
 import com.trendyol.linkconverter.repository.TransactionHistoryRepository;
 import com.trendyol.linkconverter.service.decoder.DecoderManager;
 import com.trendyol.linkconverter.service.encoder.EncoderManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -21,7 +20,6 @@ public class ConversionService {
     private DecoderManager decoderManager;
     private TransactionHistoryRepository transactionHistoryRepository;
 
-    @Autowired
     public ConversionService(TransactionHistoryRepository transactionHistoryRepository,
                              EncoderManager encoderManager,
                              DecoderManager decoderManager) {

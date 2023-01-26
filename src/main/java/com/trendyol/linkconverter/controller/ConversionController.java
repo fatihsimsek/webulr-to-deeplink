@@ -6,7 +6,6 @@ import com.trendyol.linkconverter.adapter.UrlResponse;
 import com.trendyol.linkconverter.adapter.UrlToDeepLinkRequest;
 import com.trendyol.linkconverter.service.ConversionService;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +19,6 @@ public class ConversionController {
 
     private ConversionService conversionService;
 
-    @Autowired
     public ConversionController(ConversionService conversionService) {
         this.conversionService = conversionService;
     }
